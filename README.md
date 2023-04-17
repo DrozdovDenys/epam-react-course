@@ -1,70 +1,63 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">«Epam React Course»</h1>
 
-## Available Scripts
+<div align="center"><img src="/src/images/readme.jpg"/></div>
 
-In the project directory, you can run:
+<h2>Descripion</h2>
+Create react app with the following functionality:
 
-### `npm start`
+1. Courses component should be rendered in App component.
+2. Courses component should include:
+  + SearchBar component (you will create it in the next step).
+  + CourseCard component.
+  + Add new course button. (Reuse Button component).
+3. SearchBar should be in Courses component.
+4. SearchBar component should include:
+  + Input component.
+  + Button component.
+5. SearchBar component should include:
+  + User should have ability to search course by title and id.
+  + The search is performed by the occurrence of characters in the string, and not just by a match at the
+    beginning of the string.
+  + Case-insensitive search.
+  + When user clicks on Search button it displays all courses that match the search query.
+  + All courses are displayed when user cleans search field.
+6. CreateCourse component should contain the following elements:
+  + Title (input) - field for input course name.
+  + Description (textarea) - text length should be at least 2 characters.
+  + Authors - contains a list of all authors and their corresponding Add author buttons.
+  + Course authors - contains a list of authors course and their corresponding Delete author buttons.
+  + Delete author - when user clicks on this button the corresponding author disappears from the Course
+    authors list and shows in Authors.
+  + Add author - when user clicks on this button the corresponding author disappears from the Authors
+    list and shows in Course authors.
+  + Author field (input) - author name length should be at least 2 characters.
+7. Create author (button) - when user clicks on this button:
+  + the new author appears in Authors;
+  + the new author adds to array with all authors;
+  + the author's id generates automatically;
+  + new author info should be presented as an object (see model of Author below);
+  + for the current task new author should be added to mockedAuthorsList.
+8. Duration - this part provides logic for adding course duration time.
+  + the duration of the course is entered in minutes;
+  + for the correct display of the course duration, you need to format minutes into hours and
+    minutes;
+  + duration should be more than 0 minute;
+  + user should have an ability to enter ONLY numbers into the field.
+ 9.Create course (button) - when user clicks on this button:
+  + CreateCourse component closes;
+  + Courses component displays;
+  + list of courses displays with the new course.
+ 
+  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+<h2>Technologies</h2>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
++ React
++ Redux Toolkit
++ React Router DOM 
++ Adaptive
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<h3 align="center"><a href="#">SEE LIVE</a></h3>
