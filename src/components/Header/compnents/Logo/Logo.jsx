@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../../../images/epam_logo.png';
 
-const Logo = () => {
+function Logo() {
 	return (
 		<div className='bg-[#504949] relative'>
 			<a href='/'>
@@ -17,6 +17,6 @@ const Logo = () => {
 			</a>
 		</div>
 	);
-};
+}
 
 export default Logo;

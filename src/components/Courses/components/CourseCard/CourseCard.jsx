@@ -3,8 +3,14 @@ import Button from '../../../../common/Button/Button';
 import { BTN_COURSE_TEXT, mockedAuthorsList } from '../../../../constans';
 import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
 
+import { useNavigate } from 'react-router-dom';
 
-const CourseCard = ({ course, i }) => {
+function CourseCard({ course }) {
+	const history = useNavigate();
+
+	const handleButtonClick = () => {
+		history(`/courses/${course.id}`);
+	};
 
 	return (
 		<div className='flex justify-between border shadow-md p-5 my-5'>
@@ -26,13 +32,11 @@ const CourseCard = ({ course, i }) => {
 					<span>{course.creationDate.replace(/\//g, '.')}</span>
 				</li>
 				<li className='text-center mt-3 flex justify-evenly'>
-					<Button>
-						{BTN_COURSE_TEXT}
-					</Button>
+					<Button onClick={handleButtonClick}>{BTN_COURSE_TEXT}</Button>
 				</li>
 			</ul>
 		</div>
 	);
-};
+}
 
 export default CourseCard;

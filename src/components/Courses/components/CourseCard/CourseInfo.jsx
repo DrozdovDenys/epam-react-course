@@ -9,29 +9,24 @@ import {
 import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
 
-const CourseInfo = () => {
+function CourseInfo() {
 	const { courseId } = useParams();
-	const course = mockedCoursesList[courseId];
+	const course = mockedCoursesList.find((course) => course.id === courseId);
+
 	const history = useNavigate();
 	return (
 		<>
 			{course ? (
 				<div className='border shadow-md  p-5 my-5'>
 					<Button onClick={() => history('/courses')}>
-						{BTN_COURSE_INFO_TEXT}
+						<span> &lArr;</span> {BTN_COURSE_INFO_TEXT}
 					</Button>
 					<h1 className='text-3xl font-bold mb-5 text-center'>
 						{course.title}
 					</h1>
 					<div className='flex justify-between '>
 						<div className='w-[70%]'>
-							<p>
-								{course.description} Lorem ipsum dolor sit amet consectetur
-								adipisicing elit. Molestiae assumenda consequuntur enim
-								exercitationem optio, doloremque dicta facere aliquid maiores,
-								ipsum quidem suscipit ipsa perspiciatis. Autem cum praesentium
-								odit recusandae quae?
-							</p>
+							<p>{course.description}</p>
 						</div>
 						<ul className='flex w-[25%] flex-col'>
 							<li>
@@ -60,6 +55,6 @@ const CourseInfo = () => {
 			)}
 		</>
 	);
-};
+}
 
 export default CourseInfo;

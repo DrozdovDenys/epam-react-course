@@ -10,9 +10,8 @@ import {
 import { CreateCourseContex } from '../CreateCourse';
 
 const CourseDescription = () => {
-	const { title, description, handleChange, createNewCourse } = useContext(
-		CreateCourseContex
-	);
+	const { title, description, handleChange, createNewCourse } =
+		useContext(CreateCourseContex);
 	return (
 		<fieldset>
 			<div className='flex justify-between items-end mb-5'>
