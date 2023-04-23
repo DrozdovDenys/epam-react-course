@@ -12,6 +12,7 @@ import { pipeDuration } from '../../../../helpers/pipeDuration';
 function CourseInfo() {
 	const { courseId } = useParams();
 	const course = mockedCoursesList.find((course) => course.id === courseId);
+
 	const history = useNavigate();
 	return (
 		<>

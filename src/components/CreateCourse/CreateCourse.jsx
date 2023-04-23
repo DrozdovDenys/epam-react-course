@@ -90,6 +90,7 @@ function CreateCourse() {
 			alert('Please, fill in all fields');
 		} else {
 			mockedCoursesList.push(newCourse);
+
 			history('/courses');
 		}
 	};

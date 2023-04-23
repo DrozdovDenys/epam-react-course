@@ -3,6 +3,7 @@ import { BTN_ADD_COURSE_TEXT, mockedCoursesList } from '../../constans';
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import Button from '../../common/Button/Button';
+
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 

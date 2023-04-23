@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../../../../common/Button/Button';
 import { BTN_COURSE_TEXT, mockedAuthorsList } from '../../../../constans';
 import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
+
 import { useNavigate } from 'react-router-dom';
 
 function CourseCard({ course }) {
@@ -10,6 +11,7 @@ function CourseCard({ course }) {
 	const handleButtonClick = () => {
 		history(`/courses/${course.id}`);
 	};
+
 	return (
 		<div className='flex justify-between border shadow-md p-5 my-5'>
 			<div className='w-[70%]'>
