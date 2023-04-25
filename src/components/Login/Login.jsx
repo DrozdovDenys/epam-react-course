@@ -10,6 +10,7 @@ function Login() {
 		email: '',
 		password: '',
 	});
+
 	const setLogin = async (e) => {
 		e.preventDefault();
 		const result = await Service.getUser(user);
@@ -31,7 +32,10 @@ function Login() {
 	return (
 		<div className='border-2 h-[100vh] flex flex-col justify-center'>
 			<h1 className='text-center text-xl font-bold'>Login</h1>
-			<form className='w-[300px] mx-auto text-center' onSubmit={setLogin}>
+			<form
+				className='w-[300px] mx-auto text-center flex flex-col items-center'
+				onSubmit={setLogin}
+			>
 				<fieldset className='text-start'>
 					<label className='cursor-pointer' htmlFor='name'>
 						Email

@@ -1,12 +1,20 @@
 import React from 'react';
 import Button from '../../../../common/Button/Button';
-import { BTN_COURSE_TEXT, mockedAuthorsList } from '../../../../constans';
+import { BTN_COURSE_TEXT } from '../../../../constans';
 import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
 
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAuthors } from '../../../../store/selectors';
+import {
+	addCourse,
+	deleteCourse,
+} from '../../../../store/courses/coursesSlice';
 
 function CourseCard({ course }) {
 	const history = useNavigate();
+	const dispatch = useDispatch();
+	const authors = useSelector(getAuthors);
 
 	const handleButtonClick = () => {
 		history(`/courses/${course.id}`);
@@ -21,7 +29,7 @@ function CourseCard({ course }) {
 			<ul className='flex w-[25%] flex-col justify-evenly whitespace-nowrap overflow-hidden text-ellipsis'>
 				<li>
 					<b>Authors: </b>
-					<span>{getAuthorsNames(course.authors, mockedAuthorsList)}</span>
+					<span>{getAuthorsNames(course.authors, authors)}</span>
 				</li>
 				<li>
 					<b>Duration: </b>
@@ -33,6 +41,8 @@ function CourseCard({ course }) {
 				</li>
 				<li className='text-center mt-3 flex justify-evenly'>
 					<Button onClick={handleButtonClick}>{BTN_COURSE_TEXT}</Button>
+					<Button onClick={() => dispatch(addCourse())}>🖊️</Button>
+					<Button onClick={() => dispatch(deleteCourse(course.id))}>🗑️</Button>
 				</li>
 			</ul>
 		</div>

@@ -1,17 +1,16 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../../common/Button/Button';
-import {
-	BTN_COURSE_INFO_TEXT,
-	mockedAuthorsList,
-	mockedCoursesList,
-} from '../../../../constans';
+import { BTN_COURSE_INFO_TEXT, mockedAuthorsList } from '../../../../constans';
 import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
+import { getCourses } from '../../../../store/selectors';
+import { useSelector } from 'react-redux';
 
 function CourseInfo() {
 	const { courseId } = useParams();
-	const course = mockedCoursesList.find((course) => course.id === courseId);
+	const coursesList = useSelector(getCourses);
+	const course = coursesList.find((course) => course.id === courseId);
 
 	const history = useNavigate();
 	return (
