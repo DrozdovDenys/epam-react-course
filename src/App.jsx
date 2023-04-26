@@ -1,12 +1,12 @@
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
-import CreateCourse from './components/CreateCourse/CreateCourse';
 import './App.css';
 import Registration from './components/Registration/Registration';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import CourseInfo from './components/Courses/components/CourseCard/CourseInfo';
 import { useEffect } from 'react';
+import CourseForm from './components/CreateCourse/CourseForm';
 
 function App() {
 	const history = useNavigate();
@@ -30,7 +30,7 @@ function App() {
 				<Route path='/registration' element={<Registration />} />
 				<Route path='/login' element={<Login />} />
 				<Route path='/courses' element={<Courses />} />
-				<Route path='/courses/add' element={<CreateCourse />} />
+				<Route path='/courses/add' element={<CourseForm />} />
 				<Route path='/courses/:courseId' element={<CourseInfo />} />
 				<Route path='/:redirect' element={<Navigate to='/' />} />
 			</Routes>

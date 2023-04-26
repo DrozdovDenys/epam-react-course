@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import {
 	BTN_ADD_AUTHOR_TEXT,
@@ -9,8 +9,6 @@ import {
 	INPUT_ENTER_DURATION_TEXT,
 	INPUT_ENTER_TITLE_TEXT,
 	TEXTAREA_DESCRIPTION_TEXT,
-	mockedAuthorsList,
-	mockedCoursesList,
 } from '../../constans';
 
 import { dateGenerator } from '../../helpers/dateGeneratop';
@@ -20,9 +18,15 @@ import Textarea from '../../common/Textarea/Textarea';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import Input from '../../common/Input/Input';
 import { useNavigate } from 'react-router-dom';
+import { addCourse } from '../../store/courses/coursesSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAuthors } from '../../store/authors/authorsSlice';
+import { getAuthors } from '../../store/selectors';
 
-function CreateCourse() {
+function CourseForm() {
 	const history = useNavigate();
+	const dispatch = useDispatch();
+	const authors = useSelector(getAuthors);
 	const [newCourse, setNewCourse] = useState({
 		id: String(Date.now()),
 		title: '',
@@ -35,8 +39,11 @@ function CreateCourse() {
 		id: '',
 		name: '',
 	});
-	const [authorsList, setAuthorsList] = useState([]);
 	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
+	const uniqAuthors = useMemo(
+		() => authors.filter((author) => !courseAuthorsList.includes(author)),
+		[authors, courseAuthorsList]
+	);
 
 	const handleChange = (e) => {
 		const name = e.target.name;
@@ -52,10 +59,9 @@ function CreateCourse() {
 		}
 	};
 
-	const createAuthor = () => {
+	const createAuthor = (author) => {
 		if (author.name.length > 1) {
-			setAuthorsList([...authorsList, author]);
-			mockedAuthorsList.push(author);
+			dispatch(addAuthors(author));
 			setAuthor({
 				id: '',
 				name: '',
@@ -64,10 +70,7 @@ function CreateCourse() {
 	};
 
 	const addAuthor = (author) => {
-		setAuthorsList((prevState) =>
-			prevState.filter((a) => a.name !== author.name)
-		);
-		setCourseAuthorsList([...courseAuthorsList, author]);
+		setCourseAuthorsList((prev) => [...prev, author]);
 		setNewCourse({
 			...newCourse,
 			authors: [...newCourse.authors, author.id],
@@ -82,22 +85,16 @@ function CreateCourse() {
 			...newCourse,
 			authors: [...newCourse.authors].filter((id) => id !== author.id),
 		});
-		setAuthorsList([...authorsList, author]);
 	};
 
 	const createNewCourse = () => {
 		if (Object.keys(newCourse).some((k) => newCourse[k].length === 0)) {
 			alert('Please, fill in all fields');
 		} else {
-			mockedCoursesList.push(newCourse);
-
 			history('/courses');
+			dispatch(addCourse(newCourse));
 		}
 	};
-
-	useEffect(() => {
-		setAuthorsList(mockedAuthorsList);
-	}, []);
 
 	return (
 		<form className='p-5 border'>
@@ -143,7 +140,7 @@ function CreateCourse() {
 							value={author.name}
 						/>
 						<div className='w-[100%] text-center mt-2'>
-							<Button onClick={createAuthor} type='button'>
+							<Button onClick={() => createAuthor(author)} type='button'>
 								{BTN_CREATE_AUTHOR_TEXT}
 							</Button>
 						</div>
@@ -152,7 +149,7 @@ function CreateCourse() {
 				<div className='w-[50%]'>
 					<h2 className='text-center'>Authors</h2>
 					<ul>
-						{authorsList.map((author) => (
+						{uniqAuthors.map((author) => (
 							<li
 								key={author.id}
 								className='flex justify-between mb-2 items-center last:mb-0'
@@ -218,4 +215,4 @@ function CreateCourse() {
 	);
 }
 
-export default CreateCourse;
+export default CourseForm;
