@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import { Service } from '../../API/services';
+import { useDispatch } from 'react-redux';
+import { getUserAC } from '../../store/user/actionCreator';
 
 function Login() {
 	const history = useNavigate();
+	const dispatch = useDispatch();
 	const [user, setUser] = useState({
 		email: '',
 		password: '',
@@ -13,12 +15,12 @@ function Login() {
 
 	const setLogin = async (e) => {
 		e.preventDefault();
-		const result = await Service.getUser(user);
+		const result = await dispatch(getUserAC(user));
 
-		if (result.successful) {
+		if (result.payload.successful) {
 			history('/courses');
 		} else {
-			console.error(result.errors[0]);
+			console.error('ERROR:', result.payload);
 		}
 	};
 

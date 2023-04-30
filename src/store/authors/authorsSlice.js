@@ -1,23 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAuthorsAC } from './actionCreators';
+import { addAuthorAC, getAuthorsAC } from './actionCreators';
 
 const authorsSlice = createSlice({
 	name: 'authorsSlice',
 	initialState: [],
-	reducers: {
-		addAuthors(state, action) {
-			state.push(action.payload);
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
-		builder
-			.addCase(getAuthorsAC.pending, (state, action) => {})
-			.addCase(getAuthorsAC.fulfilled, (state, action) => {
-				state.push(...action.payload);
-			})
-			.addCase(getAuthorsAC.rejected, (state, action) => {});
+		builder.addCase(getAuthorsAC.fulfilled, (state, action) => {
+			return (state = action.payload);
+		});
+		builder.addCase(addAuthorAC.fulfilled, (state, action) => {
+			state.push(action.payload.result);
+		});
 	},
 });
 
-export const { addAuthors } = authorsSlice.actions;
 export default authorsSlice.reducer;

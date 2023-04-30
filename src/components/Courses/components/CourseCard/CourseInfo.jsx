@@ -1,15 +1,16 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../../common/Button/Button';
-import { BTN_COURSE_INFO_TEXT, mockedAuthorsList } from '../../../../constans';
+import { BTN_COURSE_INFO_TEXT } from '../../../../constans';
 import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
-import { getCourses } from '../../../../store/selectors';
+import { getAuthors, getCourses } from '../../../../store/selectors';
 import { useSelector } from 'react-redux';
 
 function CourseInfo() {
 	const { courseId } = useParams();
 	const coursesList = useSelector(getCourses);
+	const authorsList = useSelector(getAuthors);
 	const course = coursesList.find((course) => course.id === courseId);
 
 	const history = useNavigate();
@@ -43,7 +44,7 @@ function CourseInfo() {
 							<li>
 								<b>Authors: </b>
 								<span className=''>
-									{getAuthorsNames(course.authors, mockedAuthorsList)}
+									{getAuthorsNames(course.authors, authorsList)}
 								</span>
 							</li>
 						</ul>

@@ -1,24 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCoursesAC } from './actionCreator';
+import {
+	addCourseAC,
+	deleteCourseAC,
+	getCoursesAC,
+	updateCourseAC,
+} from './actionCreator';
 
 const coursesSlice = createSlice({
 	name: 'coursesSlice',
 	initialState: [],
-	reducers: {
-		deleteCourse(state, action) {
-			return (state = state.filter((c) => c.id !== action.payload));
-		},
-		addCourse(state, action) {
-			state.push(action.payload);
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
-		builder
-			.addCase(getCoursesAC.pending, (state, action) => {})
-			.addCase(getCoursesAC.fulfilled, (state, action) => {
-				state.push(...action.payload);
-			})
-			.addCase(getCoursesAC.rejected, (state, action) => {});
+		builder.addCase(getCoursesAC.fulfilled, (state, action) => {
+			return (state = action.payload);
+		});
+		builder.addCase(addCourseAC.fulfilled, (state, action) => {
+			state.push(action.payload);
+		});
+		builder.addCase(deleteCourseAC.fulfilled, (state, action) => {
+			return state.filter((course) => course.id !== action.payload);
+		});
+		builder.addCase(updateCourseAC.fulfilled, (state, action) => {
+			console.log(action.payload);
+			const index = state.findIndex(({ id }) => id === action.payload.id);
+
+			state[index] = action.payload;
+		});
 	},
 });
 

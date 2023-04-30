@@ -3,6 +3,7 @@ export const BTN_SEARCH_TEXT = 'Search';
 export const BTN_COURSE_TEXT = 'Show course';
 export const BTN_COURSE_INFO_TEXT = 'Back to courses';
 export const BTN_CREATE_COURSE_TEXT = 'Create course';
+export const BTN_UPDATE_COURSE_TEXT = 'Update course';
 export const BTN_CREATE_AUTHOR_TEXT = 'Create author';
 export const BTN_ADD_COURSE_TEXT = 'Add new course';
 export const BTN_ADD_AUTHOR_TEXT = 'Add author';

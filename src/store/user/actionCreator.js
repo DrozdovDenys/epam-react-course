@@ -17,10 +17,14 @@ export const getUserRoleAC = createAsyncThunk(
 	'getUserRoleAC',
 	async (token, { rejectWithValue }) => {
 		try {
-			const userInfo = await Service.getUserRole(token);
-			return userInfo;
+			const userRole = await Service.getUserRole(token);
+			return userRole;
 		} catch (e) {
 			return rejectWithValue(e.message);
 		}
 	}
 );
+
+export const logoutAC = createAsyncThunk('logoutAC', async (token) => {
+	await Service.logout(token);
+});

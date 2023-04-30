@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserAC, getUserRoleAC } from './actionCreator';
+import { getUserAC, getUserRoleAC, logoutAC } from './actionCreator';
 
 const initialState = {
 	isAuth: false,
-	name: '',
+	name: localStorage.getItem('user') || '',
 	email: '',
-	token: '',
+	token: localStorage.getItem('token') || '',
 	role: '',
 };
 
@@ -19,20 +19,23 @@ const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder
-			.addCase(getUserAC.pending, (state, action) => {})
-			.addCase(getUserAC.fulfilled, (state, action) => {
-				state.isAuth = action.payload.successful;
-				state.name = action.payload.user.name;
-				state.email = action.payload.user.email;
-				state.token = action.payload.result;
-			})
-			.addCase(getUserAC.rejected, (state, action) => {})
-			.addCase(getUserRoleAC.pending, (state, action) => {})
-			.addCase(getUserRoleAC.fulfilled, (state, action) => {
-				state.role = action.payload;
-			})
-			.addCase(getUserRoleAC.rejected, (state, action) => {});
+		builder.addCase(getUserAC.fulfilled, (state, action) => {
+			state.isAuth = action.payload.successful;
+			state.name = action.payload.user.name;
+			state.email = action.payload.user.email;
+			state.token = action.payload.result;
+		});
+		builder.addCase(getUserRoleAC.fulfilled, (state, action) => {
+			state.role = action.payload;
+		});
+		builder.addCase(logoutAC.fulfilled, (state, action) => {
+			console.log(action.payload);
+			state.isAuth = false;
+			state.email = '';
+			state.name = '';
+			state.token = '';
+			state.role = '';
+		});
 	},
 });
 
