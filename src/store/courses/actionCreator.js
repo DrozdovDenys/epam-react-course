@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Service } from '../../API/services';
 
-export const getCoursesAC = createAsyncThunk(
-	'getCoursesAC',
+export const fetchCourses = createAsyncThunk(
+	'fetchCourses',
 	async (_, { rejectWithValue }) => {
 		try {
 			const courses = await Service.getCourses();
@@ -12,8 +12,8 @@ export const getCoursesAC = createAsyncThunk(
 		}
 	}
 );
-export const addCourseAC = createAsyncThunk(
-	'addCourseAC',
+export const addCourse = createAsyncThunk(
+	'addCourse',
 	async ({ course, token }, { rejectWithValue }) => {
 		try {
 			const response = await Service.addCourse(course, token);
@@ -23,8 +23,8 @@ export const addCourseAC = createAsyncThunk(
 		}
 	}
 );
-export const deleteCourseAC = createAsyncThunk(
-	'deleteCourseAC',
+export const deleteCourse = createAsyncThunk(
+	'deleteCourse',
 	async ({ id, token }, { rejectWithValue }) => {
 		try {
 			const courses = await Service.deleteCourse(id, token);
@@ -34,8 +34,8 @@ export const deleteCourseAC = createAsyncThunk(
 		}
 	}
 );
-export const updateCourseAC = createAsyncThunk(
-	'udateCourseAC',
+export const updateCourse = createAsyncThunk(
+	'udateCourse',
 	async ({ id, token, course }, { rejectWithValue }) => {
 		try {
 			const response = await Service.updateCourse(id, token, course);

@@ -22,15 +22,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthors, getCourses, getUser } from '../../store/selectors';
 import { addAuthorAC } from '../../store/authors/actionCreators';
-import { addCourseAC, updateCourseAC } from '../../store/courses/actionCreator';
+import { addCourse, updateCourse } from '../../store/courses/actionCreator';
 import { useEffect } from 'react';
 
 function CourseForm() {
 	const { courseId } = useParams();
-	const courses = useSelector(getCourses);
-	const courseInfo = courses.find((course) => course.id === courseId);
 	const history = useNavigate();
 	const dispatch = useDispatch();
+
+	const courses = useSelector(getCourses);
 	const authors = useSelector(getAuthors);
 	const { token } = useSelector(getUser);
 	const [newCourse, setNewCourse] = useState({
@@ -40,10 +40,12 @@ function CourseForm() {
 		duration: 0,
 		authors: [],
 	});
+	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
 	const [author, setAuthor] = useState({
 		name: '',
 	});
-	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
+	const courseInfo = courses.find((course) => course.id === courseId);
+
 	const uniqAuthors = useMemo(
 		() => authors.filter((author) => !newCourse.authors.includes(author.id)),
 		[authors, newCourse.authors]
@@ -65,9 +67,12 @@ function CourseForm() {
 	const handleChange = (e) => {
 		const name = e.target.name;
 		const value = e.target.value;
+		console.log(author.name.length);
 
 		if (name === 'duration') {
 			setNewCourse({ ...newCourse, duration: parseInt(value) });
+		} else if (name === 'authorName') {
+			setAuthor({ ...author, name: value });
 		} else {
 			setNewCourse({ ...newCourse, [name]: value });
 		}
@@ -79,6 +84,8 @@ function CourseForm() {
 			setAuthor({
 				name: '',
 			});
+		} else {
+			alert('name should includes more than 1 character');
 		}
 	};
 
@@ -92,6 +99,10 @@ function CourseForm() {
 
 	const removeAuthor = (author) => {
 		setCourseAuthorsList((prev) => prev.filter((a) => a.name !== author.name));
+		setNewCourse({
+			...newCourse,
+			authors: [...newCourse.authors].filter((id) => id !== author.id),
+		});
 	};
 
 	const createNewCourse = () => {
@@ -99,8 +110,8 @@ function CourseForm() {
 			alert('Please, fill in all fields');
 		} else {
 			courseId
-				? dispatch(updateCourseAC({ id: courseId, token, course: newCourse }))
-				: dispatch(addCourseAC({ course: newCourse, token }));
+				? dispatch(updateCourse({ id: courseId, token, course: newCourse }))
+				: dispatch(addCourse({ course: newCourse, token }));
 			history('/courses');
 		}
 	};

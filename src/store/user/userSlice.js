@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserAC, getUserRoleAC, logoutAC } from './actionCreator';
+import { getUser, getUserRole, logout } from './actionCreator';
 
 const initialState = {
 	isAuth: false,
@@ -12,23 +12,18 @@ const initialState = {
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
-	reducers: {
-		logOut(state, action) {
-			state.isAuth = action.payload;
-			localStorage.removeItem('token');
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
-		builder.addCase(getUserAC.fulfilled, (state, action) => {
+		builder.addCase(getUser.fulfilled, (state, action) => {
 			state.isAuth = action.payload.successful;
 			state.name = action.payload.user.name;
 			state.email = action.payload.user.email;
 			state.token = action.payload.result;
 		});
-		builder.addCase(getUserRoleAC.fulfilled, (state, action) => {
+		builder.addCase(getUserRole.fulfilled, (state, action) => {
 			state.role = action.payload;
 		});
-		builder.addCase(logoutAC.fulfilled, (state, action) => {
+		builder.addCase(logout.fulfilled, (state, action) => {
 			console.log(action.payload);
 			state.isAuth = false;
 			state.email = '';
@@ -40,4 +35,3 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { logOut } = userSlice.actions;
