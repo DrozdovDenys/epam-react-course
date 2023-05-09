@@ -7,7 +7,7 @@ import {
 	INPUT_TYPE_SEARCH,
 } from '../../../../constans';
 
-const SearchBar = ({ setQuery }) => {
+function SearchBar({ setQuery }) {
 	const [inputValue, setInputValue] = useState('');
 	const inputHandler = (e) => {
 		setInputValue(e.target.value);
@@ -27,6 +27,6 @@ const SearchBar = ({ setQuery }) => {
 			<Button onClick={btnSearchHandler}>{BTN_SEARCH_TEXT}</Button>
 		</div>
 	);
-};
+}
 
 export default SearchBar;

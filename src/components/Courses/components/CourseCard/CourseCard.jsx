@@ -5,15 +5,14 @@ import { getAuthorsNames } from '../../../../helpers/getAuthorsNames';
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuthors } from '../../../../store/selectors';
-import {
-	addCourse,
-	deleteCourse,
-} from '../../../../store/courses/coursesSlice';
+import { getAuthors, getUser } from '../../../../store/selectors';
+
+import { deleteCourseAC } from '../../../../store/courses/actionCreator';
 
 function CourseCard({ course }) {
 	const history = useNavigate();
 	const dispatch = useDispatch();
+	const { token, role } = useSelector(getUser);
 	const authors = useSelector(getAuthors);
 
 	const handleButtonClick = () => {
@@ -41,8 +40,20 @@ function CourseCard({ course }) {
 				</li>
 				<li className='text-center mt-3 flex justify-evenly'>
 					<Button onClick={handleButtonClick}>{BTN_COURSE_TEXT}</Button>
-					<Button onClick={() => dispatch(addCourse())}>🖊️</Button>
-					<Button onClick={() => dispatch(deleteCourse(course.id))}>🗑️</Button>
+					{role === 'admin' && (
+						<>
+							<Button onClick={() => history(`/courses/update/${course.id}`)}>
+								🖊️
+							</Button>
+							<Button
+								onClick={() =>
+									dispatch(deleteCourseAC({ id: course.id, token }))
+								}
+							>
+								🗑️
+							</Button>
+						</>
+					)}
 				</li>
 			</ul>
 		</div>

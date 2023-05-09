@@ -9,13 +9,16 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getCoursesAC } from '../../store/courses/actionCreator';
-import { getCourses } from '../../store/selectors';
+import { getCourses, getUser } from '../../store/selectors';
 import { getAuthorsAC } from '../../store/authors/actionCreators';
+import { getUserRoleAC } from '../../store/user/actionCreator';
 
 function Courses() {
 	const [query, setQuery] = useState('');
 	const history = useNavigate();
 	const dispatch = useDispatch();
+	const { token } = useSelector(getUser);
+	const { role } = useSelector(getUser);
 	const coursesList = useSelector(getCourses);
 
 	const courses = useMemo(
@@ -35,13 +38,17 @@ function Courses() {
 	useEffect(() => {
 		dispatch(getCoursesAC());
 		dispatch(getAuthorsAC());
+		dispatch(getUserRoleAC(token));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
 	return (
 		<div className='border-2 shadow-md  p-5'>
 			<div className='flex justify-between'>
 				<SearchBar value={query} setQuery={setQuery} />{' '}
-				<Button onClick={addCourse}>{BTN_ADD_COURSE_TEXT}</Button>
+				{role === 'admin' && (
+					<Button onClick={addCourse}>{BTN_ADD_COURSE_TEXT}</Button>
+				)}
 			</div>
 			{courses.map((course) => (
 				<CourseCard key={course.id} course={course} />

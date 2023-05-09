@@ -5,6 +5,7 @@ import {
 	BTN_CREATE_AUTHOR_TEXT,
 	BTN_CREATE_COURSE_TEXT,
 	BTN_REMOVE_AUTHOR_TEXT,
+	BTN_UPDATE_COURSE_TEXT,
 	INPUT_ENTER_AUTHOR_NAME_TEXT,
 	INPUT_ENTER_DURATION_TEXT,
 	INPUT_ENTER_TITLE_TEXT,
@@ -17,43 +18,56 @@ import Button from '../../common/Button/Button';
 import Textarea from '../../common/Textarea/Textarea';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import Input from '../../common/Input/Input';
-import { useNavigate } from 'react-router-dom';
-import { addCourse } from '../../store/courses/coursesSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAuthors } from '../../store/authors/authorsSlice';
-import { getAuthors } from '../../store/selectors';
+import { getAuthors, getCourses, getUser } from '../../store/selectors';
+import { addAuthorAC } from '../../store/authors/actionCreators';
+import { addCourseAC, updateCourseAC } from '../../store/courses/actionCreator';
+import { useEffect } from 'react';
 
 function CourseForm() {
+	const { courseId } = useParams();
+	const courses = useSelector(getCourses);
+	const courseInfo = courses.find((course) => course.id === courseId);
 	const history = useNavigate();
 	const dispatch = useDispatch();
 	const authors = useSelector(getAuthors);
+	const { token } = useSelector(getUser);
 	const [newCourse, setNewCourse] = useState({
-		id: String(Date.now()),
 		title: '',
 		description: '',
 		creationDate: dateGenerator(),
-		duration: '',
+		duration: 0,
 		authors: [],
 	});
 	const [author, setAuthor] = useState({
-		id: '',
 		name: '',
 	});
 	const [courseAuthorsList, setCourseAuthorsList] = useState([]);
 	const uniqAuthors = useMemo(
-		() => authors.filter((author) => !courseAuthorsList.includes(author)),
-		[authors, courseAuthorsList]
+		() => authors.filter((author) => !newCourse.authors.includes(author.id)),
+		[authors, newCourse.authors]
 	);
+
+	useEffect(() => {
+		if (courseId && courseInfo) {
+			setNewCourse({
+				...newCourse,
+				title: courseInfo.title,
+				authors: courseInfo.authors,
+				description: courseInfo.description,
+				duration: courseInfo.duration,
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [courseId, courseInfo, authors]);
 
 	const handleChange = (e) => {
 		const name = e.target.name;
 		const value = e.target.value;
 
-		if (name === 'authorName') {
-			setAuthor({
-				id: String(Date.now()),
-				name: value,
-			});
+		if (name === 'duration') {
+			setNewCourse({ ...newCourse, duration: parseInt(value) });
 		} else {
 			setNewCourse({ ...newCourse, [name]: value });
 		}
@@ -61,9 +75,8 @@ function CourseForm() {
 
 	const createAuthor = (author) => {
 		if (author.name.length > 1) {
-			dispatch(addAuthors(author));
+			dispatch(addAuthorAC({ name: author.name, token }));
 			setAuthor({
-				id: '',
 				name: '',
 			});
 		}
@@ -78,21 +91,17 @@ function CourseForm() {
 	};
 
 	const removeAuthor = (author) => {
-		setCourseAuthorsList((prevState) =>
-			prevState.filter((a) => a.name !== author.name)
-		);
-		setNewCourse({
-			...newCourse,
-			authors: [...newCourse.authors].filter((id) => id !== author.id),
-		});
+		setCourseAuthorsList((prev) => prev.filter((a) => a.name !== author.name));
 	};
 
 	const createNewCourse = () => {
 		if (Object.keys(newCourse).some((k) => newCourse[k].length === 0)) {
 			alert('Please, fill in all fields');
 		} else {
+			courseId
+				? dispatch(updateCourseAC({ id: courseId, token, course: newCourse }))
+				: dispatch(addCourseAC({ course: newCourse, token }));
 			history('/courses');
-			dispatch(addCourse(newCourse));
 		}
 	};
 
@@ -111,7 +120,7 @@ function CourseForm() {
 						/>
 					</div>
 					<Button type='button' onClick={createNewCourse}>
-						{BTN_CREATE_COURSE_TEXT}
+						{courseId ? BTN_UPDATE_COURSE_TEXT : BTN_CREATE_COURSE_TEXT}
 					</Button>
 				</div>
 				<div className='flex flex-col'>
