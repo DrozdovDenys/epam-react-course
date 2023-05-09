@@ -8,18 +8,19 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getCoursesAC } from '../../store/courses/actionCreator';
+import { fetchCourses } from '../../store/courses/actionCreator';
 import { getCourses, getUser } from '../../store/selectors';
 import { getAuthorsAC } from '../../store/authors/actionCreators';
-import { getUserRoleAC } from '../../store/user/actionCreator';
+import { getUserRole } from '../../store/user/actionCreator';
 
 function Courses() {
-	const [query, setQuery] = useState('');
 	const history = useNavigate();
 	const dispatch = useDispatch();
+
 	const { token } = useSelector(getUser);
 	const { role } = useSelector(getUser);
 	const coursesList = useSelector(getCourses);
+	const [query, setQuery] = useState('');
 
 	const courses = useMemo(
 		() =>
@@ -36,9 +37,9 @@ function Courses() {
 	};
 
 	useEffect(() => {
-		dispatch(getCoursesAC());
+		dispatch(fetchCourses());
 		dispatch(getAuthorsAC());
-		dispatch(getUserRoleAC(token));
+		dispatch(getUserRole(token));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 

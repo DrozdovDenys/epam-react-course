@@ -5,16 +5,16 @@ import Logo from './compnents/Logo/Logo';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/selectors';
-import { logoutAC } from '../../store/user/actionCreator';
+import { logout } from '../../store/user/actionCreator';
 
 function Header() {
 	const history = useNavigate();
-	const { token } = useSelector(getUser);
-	const name = localStorage.getItem('user');
 	const dispatch = useDispatch();
 
-	const logout = () => {
-		dispatch(logoutAC(token));
+	const { token, name } = useSelector(getUser);
+
+	const handleClick = () => {
+		dispatch(logout(token));
 		history('/login');
 	};
 	return (
@@ -25,7 +25,7 @@ function Header() {
 					<span className='mr-5'>
 						<b>{name}</b>
 					</span>
-					<Button onClick={logout}>{BTN_LOGOUT_TEXT}</Button>
+					<Button onClick={handleClick}>{BTN_LOGOUT_TEXT}</Button>
 				</div>
 			)}
 		</div>

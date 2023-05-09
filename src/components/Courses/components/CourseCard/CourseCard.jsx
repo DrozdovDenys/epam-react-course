@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthors, getUser } from '../../../../store/selectors';
 
-import { deleteCourseAC } from '../../../../store/courses/actionCreator';
+import { deleteCourse } from '../../../../store/courses/actionCreator';
+import { pipeDuration } from '../../../../helpers/pipeDuration';
 
 function CourseCard({ course }) {
 	const history = useNavigate();
 	const dispatch = useDispatch();
+
 	const { token, role } = useSelector(getUser);
 	const authors = useSelector(getAuthors);
 
@@ -20,7 +22,10 @@ function CourseCard({ course }) {
 	};
 
 	return (
-		<div className='flex justify-between border shadow-md p-5 my-5'>
+		<div
+			className='flex justify-between border shadow-md p-5 my-5'
+			data-testid='course'
+		>
 			<div className='w-[70%]'>
 				<h1 className='text-3xl font-bold mb-2'>{course.title}</h1>
 				<p>{course.description}</p>
@@ -32,7 +37,7 @@ function CourseCard({ course }) {
 				</li>
 				<li>
 					<b>Duration: </b>
-					<span>{course.duration}</span>
+					<span>{pipeDuration(course.duration)}</span>
 				</li>
 				<li>
 					<b>Creation: </b>
@@ -46,9 +51,7 @@ function CourseCard({ course }) {
 								🖊️
 							</Button>
 							<Button
-								onClick={() =>
-									dispatch(deleteCourseAC({ id: course.id, token }))
-								}
+								onClick={() => dispatch(deleteCourse({ id: course.id, token }))}
 							>
 								🗑️
 							</Button>

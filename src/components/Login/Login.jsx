@@ -3,11 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import { useDispatch } from 'react-redux';
-import { getUserAC } from '../../store/user/actionCreator';
+import { getUser } from '../../store/user/actionCreator';
 
 function Login() {
 	const history = useNavigate();
 	const dispatch = useDispatch();
+
 	const [user, setUser] = useState({
 		email: '',
 		password: '',
@@ -15,7 +16,7 @@ function Login() {
 
 	const setLogin = async (e) => {
 		e.preventDefault();
-		const result = await dispatch(getUserAC(user));
+		const result = await dispatch(getUser(user));
 
 		if (result.payload.successful) {
 			history('/courses');
